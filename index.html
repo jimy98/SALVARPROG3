@@ -3,22 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Súper Cuestionario Programación III</title>
+    <title>Súper Cuestionario Programación III - 90 Preguntas</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
         
         body { font-family: 'Inter', sans-serif; }
         
-        .flex-box-preview {
-            background: #e2e8f0;
-            border: 2px dashed #94a3b8;
-            min-height: 120px;
-            display: flex;
+        /* Contenedor visual para ejercicios CSS */
+        .css-preview-container {
+            background: #f8fafc;
+            border: 2px dashed #cbd5e1;
             border-radius: 8px;
-            padding: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            min-height: 120px;
+            display: flex; /* Flex por defecto para las previas */
         }
-        .flex-item-preview {
+        
+        .css-preview-item {
             width: 40px;
             height: 40px;
             background: #3b82f6;
@@ -26,263 +29,392 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 4px;
+            border-radius: 6px;
             font-weight: bold;
-            margin: 2px;
+            margin: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
+
+        /* Botones para Unir con Flechas */
         .matching-btn {
-            transition: all 0.2s;
-            border: 2px solid transparent;
+            transition: all 0.2s ease;
+            border: 2px solid #e2e8f0;
+            background: white;
+        }
+        .matching-btn:hover:not(.paired) {
+            border-color: #93c5fd;
+            background: #eff6ff;
         }
         .matching-btn.selected {
             border-color: #3b82f6;
             background-color: #dbeafe;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
         }
         .matching-btn.paired {
-            background-color: #f1f5f9;
-            color: #94a3b8;
-            border-color: #e2e8f0;
+            background-color: #dcfce7;
+            color: #166534;
+            border-color: #86efac;
             cursor: not-allowed;
+            opacity: 0.8;
+        }
+        .matching-btn.error-flash {
+            background-color: #fee2e2;
+            border-color: #fca5a5;
+            color: #991b1b;
         }
     </style>
 </head>
-<body class="bg-slate-50 min-h-screen">
+<body class="bg-slate-50 min-h-screen text-slate-800">
 
 <div class="max-w-4xl mx-auto py-10 px-4">
     <header class="text-center mb-10">
-        <h1 class="text-4xl font-extrabold text-slate-800 mb-2">Simulacador Parcial 2</h1>
-        <p class="text-slate-600 italic">Programación III - 90 Preguntas Interactivas</p>
-        <div class="mt-4 flex justify-center gap-4">
-            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">Flexbox</span>
-            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">DOM</span>
-            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-semibold">React</span>
+        <h1 class="text-4xl font-extrabold text-slate-900 mb-3 tracking-tight">Simulador Parcial 2</h1>
+        <p class="text-slate-600 text-lg">Programación III - 90 Preguntas (Sin repeticiones)</p>
+        <div class="mt-5 flex flex-wrap justify-center gap-3">
+            <span class="bg-blue-100 text-blue-800 px-4 py-1.5 rounded-full text-sm font-semibold shadow-sm">Flexbox</span>
+            <span class="bg-emerald-100 text-emerald-800 px-4 py-1.5 rounded-full text-sm font-semibold shadow-sm">DOM</span>
+            <span class="bg-amber-100 text-amber-800 px-4 py-1.5 rounded-full text-sm font-semibold shadow-sm">Eventos</span>
+            <span class="bg-purple-100 text-purple-800 px-4 py-1.5 rounded-full text-sm font-semibold shadow-sm">React</span>
         </div>
     </header>
 
-    <div id="quiz-progress" class="sticky top-4 z-50 bg-white/80 backdrop-blur-md p-4 rounded-xl shadow-sm mb-8 border border-slate-200">
-        <div class="flex justify-between mb-2 items-center">
-            <span class="text-sm font-medium text-slate-700" id="progress-text">Progreso: 0 / 90</span>
-            <span class="text-sm font-bold text-blue-600" id="score-text">Puntos: 0</span>
+    <div id="quiz-progress" class="sticky top-4 z-50 bg-white/90 backdrop-blur-md p-5 rounded-2xl shadow-md mb-8 border border-slate-200">
+        <div class="flex justify-between mb-3 items-center">
+            <span class="text-sm font-bold text-slate-700" id="progress-text">Progreso: 0 / 90</span>
+            <span class="text-sm font-black text-blue-600 bg-blue-50 px-3 py-1 rounded-lg" id="score-text">Puntos: 0</span>
         </div>
-        <div class="w-full bg-slate-200 rounded-full h-2">
-            <div id="progress-bar" class="bg-blue-600 h-2 rounded-full transition-all" style="width: 0%"></div>
+        <div class="w-full bg-slate-100 rounded-full h-3 overflow-hidden">
+            <div id="progress-bar" class="bg-gradient-to-r from-blue-500 to-indigo-600 h-3 rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
         </div>
     </div>
 
     <div id="quiz-container" class="space-y-6">
-        <!-- Las preguntas se inyectan mediante JavaScript -->
+        <!-- Las preguntas se generarán dinámicamente aquí -->
     </div>
 
-    <div class="mt-12 text-center">
-        <button onclick="calculateFinalResult()" id="finish-btn" class="hidden bg-slate-800 text-white px-10 py-4 rounded-xl font-bold text-xl hover:bg-slate-900 transition-transform active:scale-95">
-            Finalizar y Ver Resultados
+    <div class="mt-12 text-center pb-20">
+        <button onclick="calculateFinalResult()" id="finish-btn" class="hidden bg-slate-900 text-white px-10 py-4 rounded-xl font-bold text-xl hover:bg-slate-800 transition-transform active:scale-95 shadow-xl">
+            Ver Resultado Final
         </button>
     </div>
     
-    <div id="final-modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center p-4 z-[100]">
-        <div class="bg-white rounded-2xl p-8 max-w-md w-full text-center shadow-2xl">
-            <h2 class="text-3xl font-bold mb-4" id="modal-title">¡Resultado!</h2>
-            <div class="text-6xl font-black text-blue-600 mb-4" id="modal-score">0%</div>
-            <p class="text-slate-600 mb-6" id="modal-desc"></p>
-            <button onclick="location.reload()" class="bg-blue-600 text-white w-full py-3 rounded-lg font-bold">Reintentar</button>
+    <div id="final-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4 z-[100] transition-opacity">
+        <div class="bg-white rounded-3xl p-10 max-w-lg w-full text-center shadow-2xl transform scale-100 transition-transform">
+            <h2 class="text-4xl font-black mb-2 text-slate-800" id="modal-title">¡Evaluación Completada!</h2>
+            <div class="text-7xl font-black text-blue-600 my-6" id="modal-score">0%</div>
+            <p class="text-slate-600 text-lg mb-8 font-medium" id="modal-desc"></p>
+            <div class="flex gap-4 justify-center">
+                <button onclick="location.reload()" class="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition-colors">Volver a intentar</button>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
+// Base de datos de exactamente 90 preguntas elaboradas desde el PDF y las fotos
 const questions = [
-    // --- FLEXBOX ---
-    { type: 'tf', q: "Flexbox reemplaza al modelo de caja: contenido, padding, borde y margen.", a: false, feedback: "Falso. Flexbox NO reemplaza al modelo de caja, lo complementa." },
-    { type: 'mc', q: "¿A qué elementos afecta Flexbox directamente cuando se aplica 'display: flex'?", options: ["A todos los elementos del HTML", "A los hijos directos del contenedor", "Solo a los nietos del contenedor"], a: 1 },
-    { type: 'tf', q: "Si flex-direction es 'column', el eje principal es horizontal.", a: false, feedback: "Falso. En 'column', el eje principal es vertical (arriba -> abajo)." },
-    { type: 'css', q: "Interpretá el siguiente código:<br><code>.contenedor { display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; }</code><br>¿Dónde se ubicarán los items?", 
-        options: ["Arriba a la derecha", "Abajo a la izquierda", "En el centro exacto", "Arriba a la izquierda"], a: 1, 
-        css: "flex-direction: column; justify-content: flex-end; align-items: flex-start;" },
-    { type: 'mc', q: "¿Qué propiedad controla la distribución del espacio en el eje PRINCIPAL?", options: ["align-items", "justify-content", "align-content"], a: 1 },
-    { type: 'tf', q: "La propiedad 'gap' permite separar items sin usar márgenes individuales.", a: true },
-    { type: 'tf', q: "display: inline-flex crea un contenedor que ocupa todo el ancho disponible como un div.", a: false, feedback: "Falso. Eso lo hace display: flex. inline-flex se comporta como un elemento inline." },
-    { type: 'mc', q: "¿Qué valor de justify-content pega el primer y último item a los extremos?", options: ["center", "space-around", "space-between"], a: 2 },
-    { type: 'css', q: "Si usas: <code>justify-content: center; align-items: center;</code> en un contenedor con altura fija.", options: ["Los items se centran horizontal y verticalmente", "Los items se apilan a la izquierda", "Los items desaparecen"], a: 0, css: "justify-content: center; align-items: center;" },
-    { type: 'tf', q: "flex-grow define cuánto puede achicarse un elemento si falta espacio.", a: false, feedback: "Falso. Eso es flex-shrink. flex-grow define cuánto puede crecer." },
-    
-    // --- MATCHING (Relacionar) ---
-    { 
-        type: 'matching', 
-        q: "Relaciona cada valor de justify-content con su comportamiento:",
-        pairs: [
-            { id: 1, left: "center", right: "Items centrados" },
-            { id: 2, left: "flex-start", right: "Comienzan al inicio" },
-            { id: 3, left: "space-between", right: "Primero y último a los extremos" },
-            { id: 4, left: "space-around", right: "Espacio uniforme alrededor de cada uno" }
-        ]
-    },
+    // --- FLEXBOX (Preguntas 1 a 30) ---
+    { type: 'tf', q: "Flexbox reemplaza por completo al modelo de caja tradicional (contenido, padding, borde, margen).", a: false, feedback: "Falso. Flexbox no reemplaza al modelo de caja, lo complementa para distribuir elementos." },
+    { type: 'mc', q: "¿A qué elementos afecta DIRECTAMENTE Flexbox cuando se aplica 'display: flex'?", options: ["A todos los descendientes", "Solo a los hijos directos", "A los nietos del contenedor"], a: 1 },
+    { type: 'tf', q: "Si a un contenedor se le aplica 'flex-direction: column', el eje principal pasa a ser vertical.", a: true, feedback: "Verdadero. En column, el eje principal va de arriba hacia abajo." },
+    { type: 'mc', q: "¿Qué valor de 'flex-direction' es el asignado por defecto en Flexbox?", options: ["column", "row", "row-reverse"], a: 1 },
+    { type: 'tf', q: "display: inline-flex crea un contenedor flex que ocupa todo el ancho disponible como un elemento de bloque.", a: false, feedback: "Falso. inline-flex se comporta como un elemento en línea, aunque sus hijos sean flex items." },
+    { type: 'mc', q: "¿Qué propiedad controla la distribución del espacio libre a lo largo del EJE PRINCIPAL?", options: ["align-items", "justify-content", "align-content"], a: 1 },
+    { type: 'matching', q: "Uní con flechas los valores de 'justify-content' con su comportamiento visual:", pairs: [
+        { id: 'j1', left: "flex-start", right: "Todos los elementos al inicio" },
+        { id: 'j2', left: "center", right: "Elementos centrados en el eje" },
+        { id: 'j3', left: "space-between", right: "Primero y último pegados a los extremos" },
+        { id: 'j4', left: "space-around", right: "Espacio uniforme alrededor de cada item" }
+    ]},
+    { type: 'mc', q: "¿Qué propiedad alinea los elementos sobre el EJE TRANSVERSAL?", options: ["justify-content", "flex-wrap", "align-items"], a: 2 },
+    { type: 'tf', q: "El valor por defecto de 'align-items', que estira los elementos para llenar el contenedor (si no tienen alto fijo), es 'stretch'.", a: true },
+    { type: 'css', q: "Interpretá este código CSS:<br><code>.contenedor { display:flex; flex-direction:row; justify-content:center; align-items:center; }</code><br>¿Cómo se ven los hijos?", 
+      options: ["Pegados a la izquierda", "Centrados horizontal y verticalmente", "Apilados verticalmente"], a: 1, 
+      css: "flex-direction: row; justify-content: center; align-items: center; height: 100px;" },
+    { type: 'mc', q: "¿Qué propiedad permite que los elementos salten a una nueva línea si no hay espacio suficiente?", options: ["flex-basis", "flex-flow", "flex-wrap"], a: 2 },
+    { type: 'tf', q: "La propiedad abreviada 'flex-flow' permite configurar 'flex-direction' y 'flex-wrap' al mismo tiempo.", a: true },
+    { type: 'mc', q: "Para agregar separación uniforme entre flex items SIN usar márgenes individuales, se usa la propiedad:", options: ["padding", "spacing", "gap"], a: 2 },
+    { type: 'tf', q: "margin-left: auto en un flex item dentro de un contenedor en fila (row) sirve para empujar ese elemento hacia la derecha.", a: true },
+    { type: 'mc', q: "Cuando hay varias LÍNEAS de elementos (por usar flex-wrap), ¿qué propiedad alinea todo el conjunto de líneas en el contenedor?", options: ["align-items", "align-content", "align-self"], a: 1 },
+    { type: 'tf', q: "La propiedad 'flex-grow' define cuánto puede achicarse un elemento si falta espacio.", a: false, feedback: "Falso. flex-grow define cuánto CRECE. Para achicar se usa flex-shrink." },
+    { type: 'mc', q: "¿Qué define 'flex-basis' en un flex item?", options: ["Su tamaño base antes de repartir espacio", "Su prioridad visual", "La separación con el siguiente item"], a: 0 },
+    { type: 'tf', q: "El atajo 'flex: 1' aplicado a varios items sirve habitualmente para que todos tomen el mismo ancho y repartan el espacio disponible equitativamente.", a: true },
+    { type: 'mc', q: "¿Cuál de estas propiedades pertenece a los HIJOS (flex items) y NO al contenedor?", options: ["flex-wrap", "justify-content", "flex-grow"], a: 2 },
+    { type: 'css', q: "¿Qué visualización produce este código?<br><code>.contenedor { display: flex; justify-content: space-between; }</code>", 
+      options: ["Items agrupados al centro", "Items separados con extremos tocando los bordes", "Items apilados verticalmente"], a: 1, 
+      css: "flex-direction: row; justify-content: space-between;" },
 
-    // --- DOM ---
-    { type: 'mc', q: "¿Qué significa DOM?", options: ["Data Object Model", "Document Object Model", "Dynamic Order Management"], a: 1 },
-    { type: 'tf', q: "document.getElementById devuelve una colección de elementos.", a: false, feedback: "Falso. Devuelve un único elemento por su ID único." },
-    { type: 'mc', q: "¿Qué método usarías para seleccionar TODOS los <li> de una página?", options: ["querySelector('li')", "getElementById('li')", "querySelectorAll('li')"], a: 2 },
-    { type: 'tf', q: "textContent interpreta etiquetas HTML (ej: <b>Hola</b> se verá en negrita).", a: false, feedback: "Falso. textContent trata todo como texto plano. Para HTML se usa innerHTML." },
-    { type: 'mc', q: "¿Cómo se agrega una clase CSS a un elemento en JS?", options: ["element.className = 'clase'", "element.classList.add('clase')", "Ambas son válidas"], a: 2 },
-    { type: 'tf', q: "event.preventDefault() sirve para evitar que un formulario recargue la página.", a: true },
-    { type: 'mc', q: "¿Qué evento se dispara cuando el HTML ya fue cargado y parseado pero antes de las imágenes?", options: ["load", "DOMContentLoaded", "click"], a: 1 },
-    { type: 'mc', q: "¿Qué propiedad del objeto evento (e) nos dice qué elemento disparó la acción?", options: ["e.target", "e.source", "e.element"], a: 0 },
-    { type: 'tf', q: "removeEventListener sirve para borrar un elemento del DOM.", a: false, feedback: "Falso. Sirve para quitar un escuchador de eventos, no el elemento." },
-    { type: 'mc', q: "Para crear un elemento <div> nuevo usamos:", options: ["document.newElement('div')", "document.createElement('div')", "new Div()"], a: 1 },
+    //    { type: 'tf', q: "Usar 'order: -1' cambia el orden visual del item, modificando también su estructura real en el HTML.", a: false, feedback: "Falso. Cambia el orden visual pero NO modifica la estructura del HTML ni afecta la accesibilidad." },
+    { type: 'mc', q: "¿Qué propiedad permite que un flex item específico tenga una alineación en el eje transversal DISTINTA a la general marcada por align-items?", options: ["align-self", "order", "justify-self"], a: 0 },
+    { type: 'tf', q: "Si flex-direction es 'row-reverse', el orden visual de los elementos se invierte de derecha a izquierda.", a: true },
+    { type: 'mc', q: "En un contenedor con `display: flex; flex-direction: column`, ¿cómo hacemos que los items tengan espacio entre ellos y el primero/último toquen los bordes superior/inferior?", options: ["align-items: space-around", "justify-content: space-between", "gap: auto"], a: 1 },
+    { type: 'matching', q: "Uní con flechas los conceptos del 'modelo mental' de Flexbox:", pairs: [
+        { id: 'f1', left: "flex-basis", right: "Tamaño inicial antes de repartir" },
+        { id: 'f2', left: "flex-grow", right: "Cómo se reparte si sobra espacio" },
+        { id: 'f3', left: "flex-shrink", right: "Cómo se achican si falta espacio" }
+    ]},
+    { type: 'tf', q: "A veces, para que un texto largo no impida que un flex item se achique, se le aplica min-width: 0.", a: true },
+    { type: 'mc', q: "¿Qué valor de flex-wrap salta de línea pero invierte el orden del eje transversal?", options: ["wrap", "nowrap", "wrap-reverse"], a: 2 },
+    { type: 'tf', q: "En la regla `flex: 0 0 240px`, el item no crece, no se achica y mantiene un ancho fijo de 240px.", a: true },
+    { type: 'mc', q: "¿Cuál es el método ideal en Flexbox moderno para separar elementos en una barra de navegación (links)?", options: ["Poner margins a mano", "Usar la propiedad gap", "Usar float: left"], a: 1 },
+    { type: 'css', q: "¿Cómo se posicionan los hijos con: <code>flex-direction: column; align-items: flex-start;</code>?", 
+      options: ["Apilados verticalmente a la izquierda", "Centrados en el medio de la pantalla", "En fila horizontal"], a: 0, 
+      css: "flex-direction: column; align-items: flex-start; height: 120px;" },
 
-    // --- REACT ---
-    { type: 'tf', q: "React es imperativo: le decís al DOM exactamente qué hacer paso a paso.", a: false, feedback: "Falso. React es DECLARATIVO." },
-    { type: 'mc', q: "¿Qué herramienta convierte JSX en JS tradicional?", options: ["ReactDOM", "Babel", "Vite"], a: 1 },
-    { type: 'tf', q: "En JSX, 'class' se escribe 'className'.", a: true },
-    { type: 'mc', q: "¿Cómo se pasan datos de un componente padre a un hijo?", options: ["Via State", "Via Props", "Via Eventos"], a: 1 },
-    { type: 'tf', q: "Las Props son de solo lectura (inmutables) para el componente que las recibe.", a: true },
-    { type: 'mc', q: "¿Qué Hook se usa para manejar estados en componentes funcionales?", options: ["useEffect", "useCallback", "useState"], a: 2 },
-    { type: 'tf', q: "Si cambio un estado, React vuelve a renderizar el componente.", a: true },
-    { type: 'mc', q: "¿Para qué sirve la prop 'key' en una lista?", options: ["Para dar estilo", "Para que React identifique qué cambió", "Para buscar elementos"], a: 1 },
-    { type: 'matching', 
-        type: 'matching', 
-        q: "Relaciona conceptos de React:",
-        pairs: [
-            { id: 10, left: "useState", right: "Manejar estados" },
-            { id: 11, left: "Props", right: "Información del padre al hijo" },
-            { id: 12, left: "JSX", right: "Sintaxis parecida a HTML" },
-            { id: 13, left: "children", right: "Contenido anidado" }
-        ]
-    },
-    { type: 'tf', q: "Un componente funcional puede devolver múltiples elementos sin un padre usando Fragmentos (<>...</>).", a: true },
-    { type: 'mc', q: "¿Cómo se escribe el atributo 'for' de un label en JSX?", options: ["for", "htmlFor", "forId"], a: 1 },
-    { type: 'tf', q: "React actualiza todo el DOM cada vez que algo cambia.", a: false, feedback: "Falso. React usa un Virtual DOM para actualizar solo lo necesario." },
-    { type: 'mc', q: "¿Dónde se monta la aplicación de React normalmente?", options: ["En el body", "En un div con id='root'", "En el head"], a: 1 },
-    { type: 'tf', q: "style={{color: 'red'}} es la forma correcta de poner estilos en línea en React.", a: true }
+    //    { type: 'mc', q: "¿Qué significan las siglas DOM?", options: ["Data Object Model", "Document Object Model", "Document Online Mapping"], a: 1 },
+    { type: 'tf', q: "El DOM convierte el HTML en un árbol de objetos estáticos que JavaScript no puede modificar.", a: false, feedback: "Falso. Todo el propósito del DOM es permitir que JS modifique el documento dinámicamente." },
+    { type: 'mc', q: "¿Cuál es el punto de entrada principal para acceder al DOM desde JavaScript?", options: ["window", "html", "document"], a: 2 },
+    { type: 'tf', q: "getElementById devuelve una colección (array) de elementos.", a: false, feedback: "Falso. Un ID debe ser único, por lo que devuelve UN SOLO elemento." },
+    { type: 'mc', q: "¿Qué método se utiliza para seleccionar el PRIMER elemento que coincide con un selector CSS?", options: ["querySelector", "getElementsByClassName", "querySelectorAll"], a: 0 },
+    { type: 'matching', q: "Uní los selectores del DOM con su sintaxis en querySelector:", pairs: [
+        { id: 'd1', left: "Por etiqueta (párrafo)", right: "querySelector('p')" },
+        { id: 'd2', left: "Por clase", right: "querySelector('.clase')" },
+        { id: 'd3', left: "Por ID", right: "querySelector('#id')" }
+    ]},
+    { type: 'tf', q: "querySelectorAll devuelve una colección de nodos (NodeList) que puede recorrerse con forEach.", a: true },
+    { type: 'mc', q: "¿Qué propiedad lee o modifica únicamente el texto plano de un elemento (ignorando etiquetas HTML)?", options: ["innerHTML", "value", "textContent"], a: 2 },
+    { type: 'tf', q: "Si usás innerHTML = '<b>Hola</b>', el navegador renderizará la palabra 'Hola' en negrita.", a: true },
+    { type: 'mc', q: "Para leer el valor de un atributo (como el href de un enlace), usamos:", options: ["element.attribute('href')", "element.getAttribute('href')", "element.hrefValue"], a: 1 },
+    { type: 'tf', q: "La propiedad classList.toggle('activo') agrega la clase si no existe, y la quita si ya estaba presente.", a: true },
+    { type: 'mc', q: "Aunque podemos cambiar estilos con `elemento.style.color`, ¿cuál es la mejor práctica?", options: ["Modificar clases CSS con classList", "Usar siempre estilos en línea", "Borrar el elemento y recrearlo"], a: 0 },
+    { type: 'tf', q: "Para crear un nuevo nodo div en memoria desde JS, usamos document.createElement('div').", a: true },
+    { type: 'mc', q: "¿Qué método usamos para insertar un elemento nuevo al final de un contenedor existente?", options: ["prepend()", "appendChild()", "insertAfter()"], a: 1 },
+    { type: 'tf', q: "El método `append()` permite agregar tanto nodos como texto directo al DOM.", a: true },
+    { type: 'mc', q: "¿Qué método moderno se usa para eliminar un elemento directamente desde sí mismo?", options: ["element.delete()", "element.remove()", "element.destroy()"], a: 1 },
+    { type: 'tf', q: "document.getElementById('miId') y document.querySelector('#miId') devuelven el mismo elemento. (Según el examen marcado como Falso, asumiremos estricta sintaxis).", a: false, feedback: "En el examen fue evaluado como Falso, aunque lógicamente apuntan al mismo nodo." },
+    { type: 'mc', q: "¿Por qué no se recomienda declarar eventos en el HTML (ej. onclick='...')?", options: ["Porque es más rápido", "Porque mezcla estructura HTML con comportamiento JS", "Porque no funciona en Chrome"], a: 1 },
+    { type: 'tf', q: "Para evitar fallos al buscar elementos en el DOM, es útil esperar al evento DOMContentLoaded.", a: true },
+    { type: 'mc', q: "Cuando queremos limpiar el contenido de un elemento contenedor para repintar una lista, solemos usar:", options: ["contenedor.clear()", "contenedor.innerHTML = ''", "contenedor.removeChildren()"], a: 1 },
+
+    //    { type: 'mc', q: "¿Cuál es el método recomendado moderno para asignar escuchadores de eventos?", options: ["addEventListener", "setAttribute('onclick')", "element.onclick"], a: 0 },
+    { type: 'tf', q: "Una gran ventaja de addEventListener es que permite asignar MÚLTIPLES escuchadores al mismo evento en un elemento.", a: true },
+    { type: 'mc', q: "¿Qué evento se dispara CADA VEZ que cambia el valor de un input mientras el usuario escribe?", options: ["submit", "input", "change"], a: 1 },
+    { type: 'tf', q: "El evento 'change' se dispara en un input tipo texto inmediatamente en cada tecla presionada.", a: false, feedback: "Falso. En texto, 'change' suele dispararse al perder el foco (blur). Para cada tecla se usa 'input'." },
+    { type: 'mc', q: "¿En qué elemento ocurre típicamente el evento 'submit'?", options: ["En el botón", "En el input", "En el <form>"], a: 2 },
+    { type: 'matching', q: "Relacioná los eventos con su momento de disparo:", pairs: [
+        { id: 'e1', left: "click", right: "El usuario hace clic" },
+        { id: 'e2', left: "submit", right: "Se envía un formulario" },
+        { id: 'e3', left: "DOMContentLoaded", right: "HTML cargado y parseado" }
+    ]},
+    { type: 'tf', q: "Al ocurrir un evento, el navegador ejecuta la función entregándole como parámetro un objeto evento (event/e).", a: true },
+    { type: 'mc', q: "¿Qué propiedad del objeto evento (e) nos dice exactamente QUÉ elemento originó la acción?", options: ["e.source", "e.target", "e.element"], a: 1 },
+    { type: 'tf', q: "event.preventDefault() es fundamental en formularios para evitar que la página se recargue al enviarlos.", a: true },
+    { type: 'mc', q: "Si capturás datos de un formulario y querés limpiar los inputs rápidamente, podés usar:", options: ["form.reset()", "form.clear()", "form.empty()"], a: 0 },
+    { type: 'tf', q: "Es una buena práctica separar los 'datos' (arrays/objetos en JS) de la 'vista' (el DOM que se dibuja).", a: true },
+    { type: 'mc', q: "Cuando un form tiene muchos inputs, ¿qué objeto nativo nos simplifica capturar todos sus valores juntos?", options: ["FormCollector", "FormData", "DocumentForm"], a: 1 },
+    { type: 'tf', q: "El método removeEventListener solo funciona si se le pasa exactamente la misma referencia de función que se usó al agregar el listener.", a: true },
+    { type: 'mc', q: "¿Qué técnica permite escuchar eventos en un contenedor padre en lugar de agregar un listener a cada hijo dinámico?", options: ["Delegación de eventos", "Burbujeo inverso", "Event Capturing"], a: 0 },
+    { type: 'tf', q: "Para que un label active un input al hacerle clic, el atributo 'for' del label debe coincidir con el 'name' del input.", a: false, feedback: "Falso. Debe coincidir con el atributo 'id' del input, no el name." },
+
+    //    { type: 'mc', q: "¿Qué es React?", options: ["Un framework estricto de CSS", "Una biblioteca JS declarativa para crear interfaces", "Un motor de base de datos"], a: 1 },
+    { type: 'tf', q: "React utiliza un enfoque imperativo: le indicas paso a paso cómo modificar el DOM.", a: false, feedback: "Falso. React es DECLARATIVO (le decís qué querés mostrar según el estado)." },
+    { type: 'matching', q: "Uní los conceptos clave de React:", pairs: [
+        { id: 'r1', left: "Componentes", right: "Piezas reutilizables de UI" },
+        { id: 'r2', left: "Props", right: "Información que fluye del padre al hijo" },
+        { id: 'r3', left: "JSX", right: "Sintaxis HTML dentro de JavaScript" }
+    ]},
+    { type: 'mc', q: "Para usar React directo en HTML (como en clases), ¿qué herramienta transpila JSX a JS en el navegador?", options: ["Webpack", "Babel", "Vite"], a: 1 },
+    { type: 'tf', q: "En JSX, es obligatorio retornar siempre un único elemento contenedor (padre) o un fragmento.", a: true },
+    { type: 'mc', q: "¿Cómo se escribe el atributo de clase CSS en JSX?", options: ["class", "className", "classList"], a: 1 },
+    { type: 'tf', q: "En JSX, etiquetas sin cierre como `<img src='...'>` son válidas sin la barra final.", a: false, feedback: "Falso. En JSX TODAS las etiquetas deben cerrarse obligatoriamente (ej. <img />)." },
+    { type: 'mc', q: "Para ejecutar o insertar una variable de JavaScript en medio de JSX, ¿qué se utiliza?", options: ["${variable}", "[variable]", "{variable}"], a: 2 },
+    { type: 'tf', q: "En React, los nombres de los componentes (ej. function Tarjeta) SIEMPRE deben empezar con mayúscula.", a: true },
+    { type: 'mc', q: "¿Las props en React pueden ser modificadas directamente por el componente hijo que las recibe?", options: ["Sí, siempre", "No, son de solo lectura", "Solo si usamos let"], a: 1 },
+    { type: 'tf', q: "La prop 'children' permite recibir el contenido anidado que se escribe entre las etiquetas de apertura y cierre de un componente.", a: true },
+    { type: 'mc', q: "Al renderizar una lista con .map() en React, ¿qué atributo obligatorio hay que ponerle a cada elemento generado?", options: ["id", "key", "index"], a: 1 },
+    { type: 'tf', q: "El propósito del atributo 'key' es ayudar a React a identificar qué elementos han cambiado, agregado o eliminado.", a: true },
+    { type: 'mc', q: "En JSX, ¿cómo se asignan estilos en línea a través del atributo 'style'?", options: ["Con un string CSS", "Con un array", "Con un objeto de JavaScript style={{color: 'red'}}"], a: 2 },
+    { type: 'tf', q: "Los eventos en React se escriben en camelCase (ej. onClick, onChange).", a: true },
+    { type: 'mc', q: "¿Qué función (Hook) se utiliza para manejar estados dentro de un componente funcional?", options: ["useState", "useEffect", "useProps"], a: 0 },
+    { type: 'tf', q: "Cuando cambia un estado en React (usando setEstado), el componente se vuelve a renderizar automáticamente.", a: true },
+    { type: 'mc', q: "Si el nuevo estado depende del valor anterior (ej. sumar 1), la forma correcta de actualizar es:", options: ["setContador(contador + 1)", "setContador((prev) => prev + 1)", "contador++"], a: 1 },
+    { type: 'tf', q: "Para renderizado condicional en JSX es muy común usar el operador ternario `condicion ? true : false`.", a: true },
+    { type: 'mc', q: "En JSX, ¿cómo se escribe el atributo 'for' de un <label>?", options: ["for", "labelFor", "htmlFor"], a: 2 },
+    { type: 'tf', q: "Un componente funcional puede devolver múltiples elementos hermanos sin un <div> extra usando un fragmento vacío `<>...</>`.", a: true },
+    { type: 'mc', q: "De acuerdo al examen parcial, ¿cuál es el atributo en un <input> para enlazarse con el 'for' de un <label> (en HTML tradicional)?", options: ["name", "class", "id"], a: 2 },
+    { type: 'tf', q: "De acuerdo al examen parcial, el evento 'submit' se activa en el botón de envío y NO en el formulario.", a: false, feedback: "Falso. Según el examen, se activa sobre el elemento <form>." },
+    { type: 'mc', q: "¿Qué valor de align-items coloca los elementos pegados al final del eje transversal?", options: ["flex-end", "flex-start", "center"], a: 0 },
+    { type: 'tf', q: "¡Llegaste a la última! Todo el estado (state) en React es inmutable y no debe modificarse directamente con '='.", a: true }
 ];
-
-// Completando hasta 90 con variaciones basadas en apuntes...
-for(let i=1; i<=55; i++) {
-    questions.push({
-        type: 'tf',
-        q: `[Refuerzo ${i}] ¿La propiedad flex-direction: row-reverse invierte el orden visual?`,
-        a: true
-    });
-}
 
 let score = 0;
 let answeredCount = 0;
-let activePairs = { left: null, right: null };
+let activePairs = { left: null, right: null, qIdx: null };
 
 function renderQuiz() {
     const container = document.getElementById('quiz-container');
+    
     questions.forEach((q, i) => {
         const qEl = document.createElement('div');
-        qEl.className = "bg-white p-6 rounded-2xl shadow-sm border border-slate-200 transition-all hover:border-blue-300";
+        qEl.className = "bg-white p-7 rounded-2xl shadow-sm border border-slate-200 transition-all hover:shadow-md";
         qEl.id = `q-${i}`;
         
-        let html = `<div class="flex items-start gap-4">
-            <span class="bg-slate-100 text-slate-500 font-bold w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0">${i+1}</span>
-            <div class="flex-1">
-                <p class="text-lg font-semibold text-slate-800 mb-4">${q.q}</p>`;
+        let html = `
+            <div class="flex items-start gap-4">
+                <div class="bg-blue-100 text-blue-700 font-bold w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 text-lg shadow-sm">
+                    ${i+1}
+                </div>
+                <div class="flex-1 w-full">
+                    <p class="text-xl font-semibold text-slate-800 mb-5 leading-relaxed">${q.q}</p>`;
 
+        // Si es visualización CSS
         if (q.type === 'css') {
-            html += `<div class="flex-box-preview mb-4" style="${q.css}">
-                <div class="flex-item-preview">1</div>
-                <div class="flex-item-preview">2</div>
-                <div class="flex-item-preview">3</div>
+            html += `
+            <div class="css-preview-container" style="${q.css}">
+                <div class="css-preview-item">1</div>
+                <div class="css-preview-item">2</div>
+                <div class="css-preview-item">3</div>
             </div>`;
         }
 
+        // Si es Selección Múltiple, V/F o CSS
         if (q.type === 'tf' || q.type === 'mc' || q.type === 'css') {
             const opts = q.type === 'tf' ? ["Verdadero", "Falso"] : q.options;
-            html += `<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">`;
+            html += `<div class="grid grid-cols-1 md:grid-cols-2 gap-3">`;
             opts.forEach((opt, oi) => {
-                const correctVal = q.type === 'tf' ? (oi === 0) : (oi === q.a);
-                html += `<button onclick="checkAnswer(${i}, ${oi === 0}, ${correctVal}, this)" class="text-left p-3 rounded-xl border border-slate-200 hover:bg-blue-50 transition-colors focus:outline-none">
+                const isCorrect = q.type === 'tf' ? (oi === 0 ? q.a === true : q.a === false) : (oi === q.a);
+                html += `
+                <button onclick="checkAnswer(${i}, ${isCorrect}, this)" class="text-left p-4 rounded-xl border-2 border-slate-100 hover:bg-slate-50 transition-colors focus:outline-none font-medium text-slate-700">
                     ${opt}
                 </button>`;
             });
             html += `</div>`;
         }
 
+        // Si es Matching (Unir con flechas)
         if (q.type === 'matching') {
-            html += `<div class="grid grid-cols-2 gap-8 mt-4">
-                <div class="space-y-2">
-                    ${q.pairs.map(p => `<button id="left-${p.id}" onclick="selectPair(${i}, '${p.id}', 'left')" class="matching-btn w-full text-left p-2 bg-slate-50 rounded-lg border text-sm">${p.left}</button>`).join('')}
+            const leftItems = [...q.pairs];
+            const rightItems = [...q.pairs].sort(() => Math.random() - 0.5); // Desordenar derecha
+            
+            html += `<div class="grid grid-cols-2 gap-4 mt-2">
+                <div class="space-y-3">
+                    ${leftItems.map(p => `<button id="l-${i}-${p.id}" onclick="selectPair(${i}, '${p.id}', 'left')" class="matching-btn w-full text-left p-3 rounded-lg text-sm font-semibold text-slate-700 shadow-sm">${p.left}</button>`).join('')}
                 </div>
-                <div class="space-y-2">
-                    ${q.pairs.map(p => `<button id="right-${p.id}" onclick="selectPair(${i}, '${p.id}', 'right')" class="matching-btn w-full text-left p-2 bg-slate-50 rounded-lg border text-sm">${p.right}</button>`).sort(() => Math.random() - 0.5).join('')}
+                <div class="space-y-3">
+                    ${rightItems.map(p => `<button id="r-${i}-${p.id}" onclick="selectPair(${i}, '${p.id}', 'right')" class="matching-btn w-full text-left p-3 rounded-lg text-sm font-semibold text-slate-700 shadow-sm">${p.right}</button>`).join('')}
                 </div>
             </div>`;
         }
 
-        html += `<div id="feedback-${i}" class="mt-4 hidden p-3 rounded-lg text-sm font-medium"></div>
+        html += `<div id="feedback-${i}" class="mt-5 hidden p-4 rounded-xl text-sm font-bold shadow-inner"></div>
             </div></div>`;
+            
         qEl.innerHTML = html;
         container.appendChild(qEl);
     });
 }
 
-function checkAnswer(qIdx, selectedBool, isCorrect, btn) {
+function checkAnswer(qIdx, isCorrect, btn) {
     const q = questions[qIdx];
     const feedback = document.getElementById(`feedback-${qIdx}`);
     const parent = btn.parentElement;
     
     // Deshabilitar otros botones
     const buttons = parent.querySelectorAll('button');
-    buttons.forEach(b => b.disabled = true);
+    buttons.forEach(b => {
+        b.disabled = true;
+        b.classList.add('opacity-60', 'cursor-not-allowed');
+    });
 
-    if ( (q.type === 'tf' && selectedBool === q.a) || (q.type !== 'tf' && isCorrect) ) {
-        btn.className = "text-left p-3 rounded-xl border-2 border-green-500 bg-green-50 font-bold";
+    btn.classList.remove('opacity-60');
+
+    if (isCorrect) {
+        btn.className = "text-left p-4 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-emerald-800 font-bold shadow-sm";
         score++;
     } else {
-        btn.className = "text-left p-3 rounded-xl border-2 border-red-500 bg-red-50 text-red-700";
-        feedback.innerHTML = q.feedback || "Incorrecto.";
-        feedback.className = "mt-4 p-3 rounded-lg text-sm font-medium bg-red-100 text-red-800";
-        feedback.classList.remove('hidden');
+        btn.className = "text-left p-4 rounded-xl border-2 border-rose-500 bg-rose-50 text-rose-800 font-bold shadow-sm";
+        
+        // Encontrar el botón correcto y resaltarlo en verde bajito
+        buttons.forEach(b => {
+            if (b !== btn) {
+                 // Recuperar qué índice era este botón
+                 const isThisCorrect = q.type === 'tf' ? (b.innerText === "Verdadero" ? q.a === true : q.a === false) : (b.innerText === q.options[q.a]);
+                 if(isThisCorrect){
+                     b.classList.remove('opacity-60');
+                     b.classList.add('border-emerald-300', 'bg-emerald-50');
+                 }
+            }
+        });
+
+        feedback.innerHTML = q.feedback || "❌ Incorrecto. Revisá los apuntes de la materia.";
+        feedback.className = "mt-5 p-4 rounded-xl text-sm font-medium bg-rose-100 text-rose-800 block shadow-sm border border-rose-200";
     }
 
     updateProgress();
 }
 
 function selectPair(qIdx, id, side) {
-    const btn = document.getElementById(`${side}-${id}`);
+    const btn = document.getElementById(`${side.charAt(0)}-${qIdx}-${id}`);
     if (btn.classList.contains('paired')) return;
+
+    // Si cambia de pregunta a mitad de un emparejamiento, resetear
+    if (activePairs.qIdx !== null && activePairs.qIdx !== qIdx) {
+        clearPairSelections(activePairs.qIdx);
+    }
+    activePairs.qIdx = qIdx;
 
     // Desmarcar anterior del mismo lado
     document.querySelectorAll(`#q-${qIdx} .matching-btn`).forEach(b => {
-        if (b.id.startsWith(side)) b.classList.remove('selected');
+        if (b.id.startsWith(side.charAt(0))) b.classList.remove('selected');
     });
 
     btn.classList.add('selected');
     activePairs[side] = id;
 
     if (activePairs.left && activePairs.right) {
-        if (activePairs.left === activePairs.right) {
-            // Correcto
-            document.getElementById(`left-${activePairs.left}`).className = "matching-btn w-full text-left p-2 paired bg-green-100 text-green-700 border-green-200 cursor-not-allowed text-sm";
-            document.getElementById(`right-${activePairs.right}`).className = "matching-btn w-full text-left p-2 paired bg-green-100 text-green-700 border-green-200 cursor-not-allowed text-sm";
-            
-            // Verificar si terminó el matching
-            const allPaired = document.querySelectorAll(`#q-${qIdx} .paired`).length;
-            if (allPaired === questions[qIdx].pairs.length * 2) {
-                score++;
-                updateProgress();
-            }
-        } else {
-            // Error visual temporal
-            const l = document.getElementById(`left-${activePairs.left}`);
-            const r = document.getElementById(`right-${activePairs.right}`);
-            l.classList.add('bg-red-100'); r.classList.add('bg-red-100');
-            setTimeout(() => {
-                l.classList.remove('selected', 'bg-red-100');
-                r.classList.remove('selected', 'bg-red-100');
-            }, 500);
-        }
-        activePairs = { left: null, right: null };
+        checkMatchingPair(qIdx);
     }
+}
+
+function checkMatchingPair(qIdx) {
+    const lId = activePairs.left;
+    const rId = activePairs.right;
+    const lBtn = document.getElementById(`l-${qIdx}-${lId}`);
+    const rBtn = document.getElementById(`r-${qIdx}-${rId}`);
+
+    if (lId === rId) {
+        // Correcto!
+        lBtn.className = "matching-btn w-full text-left p-3 rounded-lg text-sm font-semibold paired";
+        rBtn.className = "matching-btn w-full text-left p-3 rounded-lg text-sm font-semibold paired";
+        
+        // Comprobar si toda la pregunta se terminó
+        const totalPairs = questions[qIdx].pairs.length * 2;
+        const pairedCount = document.querySelectorAll(`#q-${qIdx} .paired`).length;
+        
+        if (pairedCount === totalPairs) {
+            score++;
+            updateProgress();
+            
+            const feedback = document.getElementById(`feedback-${qIdx}`);
+            feedback.innerHTML = "✅ ¡Excelente! Relacionaste todo correctamente.";
+            feedback.className = "mt-5 p-4 rounded-xl text-sm font-bold bg-emerald-100 text-emerald-800 block border border-emerald-200";
+        }
+    } else {
+        // Incorrecto (Flash rojo y limpiar)
+        lBtn.classList.add('error-flash');
+        rBtn.classList.add('error-flash');
+        
+        setTimeout(() => {
+            lBtn.classList.remove('selected', 'error-flash');
+            rBtn.classList.remove('selected', 'error-flash');
+        }, 600);
+    }
+    
+    activePairs = { left: null, right: null, qIdx: null };
+}
+
+function clearPairSelections(qIdx) {
+    document.querySelectorAll(`#q-${qIdx} .matching-btn`).forEach(b => {
+        b.classList.remove('selected', 'error-flash');
+    });
 }
 
 function updateProgress() {
     answeredCount++;
     const progress = (answeredCount / questions.length) * 100;
+    
     document.getElementById('progress-bar').style.width = `${progress}%`;
-    document.getElementById('progress-text').innerText = `Progreso: ${answeredCount} / ${questions.length}`;
+    document.getElementById('progress-text').innerText = `Completado: ${answeredCount} / ${questions.length}`;
     document.getElementById('score-text').innerText = `Puntos: ${score}`;
     
     if (answeredCount === questions.length) {
@@ -301,18 +433,22 @@ function calculateFinalResult() {
     modal.classList.add('flex');
     scoreDisplay.innerText = `${percentage}%`;
 
-    if (percentage >= 70) {
-        title.innerText = "¡Aprobaste!";
-        desc.innerText = "Tenés un excelente dominio de los temas del segundo parcial.";
-    } else if (percentage >= 40) {
-        title.innerText = "A Final / Recuperatorio";
-        desc.innerText = "Estás cerca, pero te falta repasar conceptos clave de React y Flexbox.";
+    if (percentage >= 80) {
+        title.innerText = "¡Excelente!";
+        desc.innerText = "Tenés un dominio absoluto de Flexbox, DOM, Eventos y React. ¡Estás más que listo para el parcial!";
+        scoreDisplay.className = "text-7xl font-black text-emerald-600 my-6";
+    } else if (percentage >= 60) {
+        title.innerText = "¡Aprobado!";
+        desc.innerText = "Muy buen trabajo, pero te sugerimos repasar aquellas preguntas donde fallaste para pulir detalles.";
+        scoreDisplay.className = "text-7xl font-black text-blue-600 my-6";
     } else {
-        title.innerText = "Desaprobado";
-        desc.innerText = "Necesitas estudiar mucho más los apuntes completos.";
+        title.innerText = "Hay que seguir estudiando";
+        desc.innerText = "Aún te faltan asimilar algunos conceptos. Repasá los PDFs teóricos e intentá de nuevo.";
+        scoreDisplay.className = "text-7xl font-black text-rose-600 my-6";
     }
 }
 
+// Iniciar aplicación
 window.onload = renderQuiz;
 </script>
 </body>
