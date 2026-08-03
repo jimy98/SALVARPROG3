@@ -118,7 +118,7 @@ const questions = [
     { type: 'mc', q: "¿A qué elementos afecta DIRECTAMENTE Flexbox cuando se aplica 'display: flex'?", options: ["A todos los descendientes", "Solo a los hijos directos", "A los nietos del contenedor"], a: 1 },
     { type: 'tf', q: "Si a un contenedor se le aplica 'flex-direction: column', el eje principal pasa a ser vertical.", a: true, feedback: "Verdadero. En column, el eje principal va de arriba hacia abajo." },
     { type: 'mc', q: "¿Qué valor de 'flex-direction' es el asignado por defecto en Flexbox?", options: ["column", "row", "row-reverse"], a: 1 },
-    { type: 'tf', q: "display: inline-flex crea un contenedor flex que ocupa todo el ancho disponible como un elemento de bloque.", a: false, feedback: "Falso. inline-flex se comporta como un elemento en línea, aunque sus hijos sean flex items." },
+    { type: 'fill', q: "Complete la siguiente regla CSS para convertir al elemento en línea en un contenedor Flexbox:<br><code class='text-blue-600 bg-blue-50 px-2 py-1 rounded'>.contenedor { display: _______; }</code>", a: ["inline-flex", "inline-flex;"] },
     { type: 'mc', q: "¿Qué propiedad controla la distribución del espacio libre a lo largo del EJE PRINCIPAL?", options: ["align-items", "justify-content", "align-content"], a: 1 },
     { type: 'matching', q: "Uní con flechas los valores de 'justify-content' con su comportamiento visual:", pairs: [
         { id: 'j1', left: "flex-start", right: "Todos los elementos al inicio" },
@@ -128,23 +128,19 @@ const questions = [
     ]},
     { type: 'mc', q: "¿Qué propiedad alinea los elementos sobre el EJE TRANSVERSAL?", options: ["justify-content", "flex-wrap", "align-items"], a: 2 },
     { type: 'tf', q: "El valor por defecto de 'align-items', que estira los elementos para llenar el contenedor (si no tienen alto fijo), es 'stretch'.", a: true },
-    { type: 'css', q: "Interpretá este código CSS:<br><code>.contenedor { display:flex; flex-direction:row; justify-content:center; align-items:center; }</code><br>¿Cómo se ven los hijos?", 
-      options: ["Pegados a la izquierda", "Centrados horizontal y verticalmente", "Apilados verticalmente"], a: 1, 
-      css: "flex-direction: row; justify-content: center; align-items: center; height: 100px;" },
+    { type: 'mc', q: "Se tiene el siguiente CSS:<br><code>.contenedor { display: flex; flex-direction: row; justify-content: center; align-items: center; }</code><br>¿Qué ocurre con los elementos hijos?", options: ["Se distribuyen con igual separación horizontal.", "Se alinean únicamente en la parte superior.", "Se ubican centrados horizontal y verticalmente.", "Se acomodan automáticamente en varias filas."], a: 2 },
     { type: 'mc', q: "¿Qué propiedad permite que los elementos salten a una nueva línea si no hay espacio suficiente?", options: ["flex-basis", "flex-flow", "flex-wrap"], a: 2 },
     { type: 'tf', q: "La propiedad abreviada 'flex-flow' permite configurar 'flex-direction' y 'flex-wrap' al mismo tiempo.", a: true },
-    { type: 'mc', q: "Para agregar separación uniforme entre flex items SIN usar márgenes individuales, se usa la propiedad:", options: ["padding", "spacing", "gap"], a: 2 },
+    { type: 'fill', q: "Complete el código para que los elementos hijos se distribuyan con igual espacio entre ellos, dejando el primer elemento al inicio y el último al final.<br><code class='text-blue-600 bg-blue-50 px-2 py-1 rounded'>.contenedor { display: flex; justify-content: _______; }</code>", a: ["space-between", "space-between;"] },
     { type: 'tf', q: "margin-left: auto en un flex item dentro de un contenedor en fila (row) sirve para empujar ese elemento hacia la derecha.", a: true },
     { type: 'mc', q: "Cuando hay varias LÍNEAS de elementos (por usar flex-wrap), ¿qué propiedad alinea todo el conjunto de líneas en el contenedor?", options: ["align-items", "align-content", "align-self"], a: 1 },
     { type: 'tf', q: "La propiedad 'flex-grow' define cuánto puede achicarse un elemento si falta espacio.", a: false, feedback: "Falso. flex-grow define cuánto CRECE. Para achicar se usa flex-shrink." },
     { type: 'mc', q: "¿Qué define 'flex-basis' en un flex item?", options: ["Su tamaño base antes de repartir espacio", "Su prioridad visual", "La separación con el siguiente item"], a: 0 },
     { type: 'tf', q: "El atajo 'flex: 1' aplicado a varios items sirve habitualmente para que todos tomen el mismo ancho y repartan el espacio disponible equitativamente.", a: true },
-    { type: 'mc', q: "¿Cuál de estas propiedades pertenece a los HIJOS (flex items) y NO al contenedor?", options: ["flex-wrap", "justify-content", "flex-grow"], a: 2 },
+    { type: 'mc', q: "¿Cuál de las siguientes propiedades pertenece a los elementos hijos (flex items) y no al contenedor?", options: ["justify-content", "align-items", "flex-wrap", "flex-grow"], a: 3 },
     { type: 'css', q: "¿Qué visualización produce este código?<br><code>.contenedor { display: flex; justify-content: space-between; }</code>", 
       options: ["Items agrupados al centro", "Items separados con extremos tocando los bordes", "Items apilados verticalmente"], a: 1, 
       css: "flex-direction: row; justify-content: space-between;" },
-
-    //    { type: 'tf', q: "Usar 'order: -1' cambia el orden visual del item, modificando también su estructura real en el HTML.", a: false, feedback: "Falso. Cambia el orden visual pero NO modifica la estructura del HTML ni afecta la accesibilidad." },
     { type: 'mc', q: "¿Qué propiedad permite que un flex item específico tenga una alineación en el eje transversal DISTINTA a la general marcada por align-items?", options: ["align-self", "order", "justify-self"], a: 0 },
     { type: 'tf', q: "Si flex-direction es 'row-reverse', el orden visual de los elementos se invierte de derecha a izquierda.", a: true },
     { type: 'mc', q: "En un contenedor con `display: flex; flex-direction: column`, ¿cómo hacemos que los items tengan espacio entre ellos y el primero/último toquen los bordes superior/inferior?", options: ["align-items: space-around", "justify-content: space-between", "gap: auto"], a: 1 },
@@ -161,11 +157,11 @@ const questions = [
       options: ["Apilados verticalmente a la izquierda", "Centrados en el medio de la pantalla", "En fila horizontal"], a: 0, 
       css: "flex-direction: column; align-items: flex-start; height: 120px;" },
 
-    //    { type: 'mc', q: "¿Qué significan las siglas DOM?", options: ["Data Object Model", "Document Object Model", "Document Online Mapping"], a: 1 },
+    // --- DOM (Preguntas 30 a 48) ---
     { type: 'tf', q: "El DOM convierte el HTML en un árbol de objetos estáticos que JavaScript no puede modificar.", a: false, feedback: "Falso. Todo el propósito del DOM es permitir que JS modifique el documento dinámicamente." },
     { type: 'mc', q: "¿Cuál es el punto de entrada principal para acceder al DOM desde JavaScript?", options: ["window", "html", "document"], a: 2 },
     { type: 'tf', q: "getElementById devuelve una colección (array) de elementos.", a: false, feedback: "Falso. Un ID debe ser único, por lo que devuelve UN SOLO elemento." },
-    { type: 'mc', q: "¿Qué método se utiliza para seleccionar el PRIMER elemento que coincide con un selector CSS?", options: ["querySelector", "getElementsByClassName", "querySelectorAll"], a: 0 },
+    { type: 'fill', q: "¿Qué método de document se utiliza para seleccionar el primer elemento que coincide con un selector de CSS en el DOM?", a: ["querySelector", "querySelector()"] },
     { type: 'matching', q: "Uní los selectores del DOM con su sintaxis en querySelector:", pairs: [
         { id: 'd1', left: "Por etiqueta (párrafo)", right: "querySelector('p')" },
         { id: 'd2', left: "Por clase", right: "querySelector('.clase')" },
@@ -180,17 +176,17 @@ const questions = [
     { type: 'tf', q: "Para crear un nuevo nodo div en memoria desde JS, usamos document.createElement('div').", a: true },
     { type: 'mc', q: "¿Qué método usamos para insertar un elemento nuevo al final de un contenedor existente?", options: ["prepend()", "appendChild()", "insertAfter()"], a: 1 },
     { type: 'tf', q: "El método `append()` permite agregar tanto nodos como texto directo al DOM.", a: true },
-    { type: 'mc', q: "¿Qué método moderno se usa para eliminar un elemento directamente desde sí mismo?", options: ["element.delete()", "element.remove()", "element.destroy()"], a: 1 },
-    { type: 'tf', q: "document.getElementById('miId') y document.querySelector('#miId') devuelven el mismo elemento. (Según el examen marcado como Falso, asumiremos estricta sintaxis).", a: false, feedback: "En el examen fue evaluado como Falso, aunque lógicamente apuntan al mismo nodo." },
+    { type: 'mc', q: "¿Qué método se usa para eliminar un elemento del DOM?", options: ["element.parentNode.removeChild(element)", "element.delete()", "element.hide()", "element.remove()"], a: 3 },
+    { type: 'tf', q: "document.getElementById('miId') y document.querySelector('#miId') siempre devuelven el mismo elemento.", a: false, feedback: "Falso. En el examen se marca como falso porque querySelector puede fallar si el ID no es un selector CSS válido (ej. empieza con un número), mientras que getElementById sí funcionará." },
     { type: 'mc', q: "¿Por qué no se recomienda declarar eventos en el HTML (ej. onclick='...')?", options: ["Porque es más rápido", "Porque mezcla estructura HTML con comportamiento JS", "Porque no funciona en Chrome"], a: 1 },
     { type: 'tf', q: "Para evitar fallos al buscar elementos en el DOM, es útil esperar al evento DOMContentLoaded.", a: true },
+    
+    // --- EVENTOS Y FORMULARIOS (Preguntas 49 a 63) ---
     { type: 'mc', q: "Cuando queremos limpiar el contenido de un elemento contenedor para repintar una lista, solemos usar:", options: ["contenedor.clear()", "contenedor.innerHTML = ''", "contenedor.removeChildren()"], a: 1 },
-
-    //    { type: 'mc', q: "¿Cuál es el método recomendado moderno para asignar escuchadores de eventos?", options: ["addEventListener", "setAttribute('onclick')", "element.onclick"], a: 0 },
     { type: 'tf', q: "Una gran ventaja de addEventListener es que permite asignar MÚLTIPLES escuchadores al mismo evento en un elemento.", a: true },
     { type: 'mc', q: "¿Qué evento se dispara CADA VEZ que cambia el valor de un input mientras el usuario escribe?", options: ["submit", "input", "change"], a: 1 },
     { type: 'tf', q: "El evento 'change' se dispara en un input tipo texto inmediatamente en cada tecla presionada.", a: false, feedback: "Falso. En texto, 'change' suele dispararse al perder el foco (blur). Para cada tecla se usa 'input'." },
-    { type: 'mc', q: "¿En qué elemento ocurre típicamente el evento 'submit'?", options: ["En el botón", "En el input", "En el <form>"], a: 2 },
+    { type: 'mc', q: "¿Qué afirmación es correcta sobre el evento submit de un formulario HTML?", options: ["Para capturar este evento, el listener se debe adjuntar al botón de envío y no al formulario.", "Se dispara cuando el usuario hace clic en un elemento <input type='submit'> o <button type='submit'>.", "No se puede cancelar; una vez que se activa, la página siempre se recargará.", "Se activa sobre el elemento <form> y su comportamiento por defecto puede ser prevenido con event.preventDefault()."], a: 3 },
     { type: 'matching', q: "Relacioná los eventos con su momento de disparo:", pairs: [
         { id: 'e1', left: "click", right: "El usuario hace clic" },
         { id: 'e2', left: "submit", right: "Se envía un formulario" },
@@ -198,43 +194,47 @@ const questions = [
     ]},
     { type: 'tf', q: "Al ocurrir un evento, el navegador ejecuta la función entregándole como parámetro un objeto evento (event/e).", a: true },
     { type: 'mc', q: "¿Qué propiedad del objeto evento (e) nos dice exactamente QUÉ elemento originó la acción?", options: ["e.source", "e.target", "e.element"], a: 1 },
-    { type: 'tf', q: "event.preventDefault() es fundamental en formularios para evitar que la página se recargue al enviarlos.", a: true },
-    { type: 'mc', q: "Si capturás datos de un formulario y querés limpiar los inputs rápidamente, podés usar:", options: ["form.reset()", "form.clear()", "form.empty()"], a: 0 },
+    { type: 'mc', q: "¿Cuál es el propósito principal del método preventDefault() en el manejo de eventos de formulario?", options: ["Resetear el formulario a sus valores iniciales", "Evitar que el formulario se envíe", "Validar los campos del formulario", "Ocultar el formulario de la vista"], a: 1 },
+    { type: 'mc', q: "Si capturás datos de un formulario y querés limpiar los inputs rápidamente usando código propio, podés invocar el método nativo:", options: ["form.reset()", "form.clear()", "form.empty()"], a: 0 },
     { type: 'tf', q: "Es una buena práctica separar los 'datos' (arrays/objetos en JS) de la 'vista' (el DOM que se dibuja).", a: true },
     { type: 'mc', q: "Cuando un form tiene muchos inputs, ¿qué objeto nativo nos simplifica capturar todos sus valores juntos?", options: ["FormCollector", "FormData", "DocumentForm"], a: 1 },
     { type: 'tf', q: "El método removeEventListener solo funciona si se le pasa exactamente la misma referencia de función que se usó al agregar el listener.", a: true },
     { type: 'mc', q: "¿Qué técnica permite escuchar eventos en un contenedor padre en lugar de agregar un listener a cada hijo dinámico?", options: ["Delegación de eventos", "Burbujeo inverso", "Event Capturing"], a: 0 },
     { type: 'tf', q: "Para que un label active un input al hacerle clic, el atributo 'for' del label debe coincidir con el 'name' del input.", a: false, feedback: "Falso. Debe coincidir con el atributo 'id' del input, no el name." },
 
-    //    { type: 'mc', q: "¿Qué es React?", options: ["Un framework estricto de CSS", "Una biblioteca JS declarativa para crear interfaces", "Un motor de base de datos"], a: 1 },
+    // --- REACT (Preguntas 64 a 90) ---
     { type: 'tf', q: "React utiliza un enfoque imperativo: le indicas paso a paso cómo modificar el DOM.", a: false, feedback: "Falso. React es DECLARATIVO (le decís qué querés mostrar según el estado)." },
-    { type: 'matching', q: "Uní los conceptos clave de React:", pairs: [
-        { id: 'r1', left: "Componentes", right: "Piezas reutilizables de UI" },
-        { id: 'r2', left: "Props", right: "Información que fluye del padre al hijo" },
-        { id: 'r3', left: "JSX", right: "Sintaxis HTML dentro de JavaScript" }
+    { type: 'matching', q: "Relacionar un concepto de React con su definición:", pairs: [
+        { id: 'r1', left: "props", right: "Información que fluye desde el padre." },
+        { id: 'r2', left: "children", right: "Propiedad con contenido anidado." },
+        { id: 'r3', left: "useState", right: "Manejar estados." }
     ]},
     { type: 'mc', q: "Para usar React directo en HTML (como en clases), ¿qué herramienta transpila JSX a JS en el navegador?", options: ["Webpack", "Babel", "Vite"], a: 1 },
     { type: 'tf', q: "En JSX, es obligatorio retornar siempre un único elemento contenedor (padre) o un fragmento.", a: true },
     { type: 'mc', q: "¿Cómo se escribe el atributo de clase CSS en JSX?", options: ["class", "className", "classList"], a: 1 },
     { type: 'tf', q: "En JSX, etiquetas sin cierre como `<img src='...'>` son válidas sin la barra final.", a: false, feedback: "Falso. En JSX TODAS las etiquetas deben cerrarse obligatoriamente (ej. <img />)." },
-    { type: 'mc', q: "Para ejecutar o insertar una variable de JavaScript en medio de JSX, ¿qué se utiliza?", options: ["${variable}", "[variable]", "{variable}"], a: 2 },
+    { type: 'mc', q: "Para ejecutar o insertar una variable de JavaScript en medio de JSX, ¿qué se utiliza?", options: ["Símbolo de dólar $ y llaves {}", "Corchetes []", "Llaves {}"], a: 2 },
     { type: 'tf', q: "En React, los nombres de los componentes (ej. function Tarjeta) SIEMPRE deben empezar con mayúscula.", a: true },
-    { type: 'mc', q: "¿Las props en React pueden ser modificadas directamente por el componente hijo que las recibe?", options: ["Sí, siempre", "No, son de solo lectura", "Solo si usamos let"], a: 1 },
+    { type: 'tf', q: "En React, las 'props' de un componente son los estados internos de un componente.", a: false, feedback: "Falso. Las props son datos de solo lectura que vienen desde el padre. El estado interno se maneja con useState." },
     { type: 'tf', q: "La prop 'children' permite recibir el contenido anidado que se escribe entre las etiquetas de apertura y cierre de un componente.", a: true },
     { type: 'mc', q: "Al renderizar una lista con .map() en React, ¿qué atributo obligatorio hay que ponerle a cada elemento generado?", options: ["id", "key", "index"], a: 1 },
-    { type: 'tf', q: "El propósito del atributo 'key' es ayudar a React a identificar qué elementos han cambiado, agregado o eliminado.", a: true },
+    { type: 'mc', q: "¿Cuál es el propósito del atributo 'key' en React al renderizar una lista de elementos?", options: ["Ayudar a React a identificar qué elementos han cambiado, se han agregado o se han eliminado", "Proporcionar un ID único para los elementos en el DOM", "Estilizar los elementos de la lista de forma única", "Hacer que los elementos de la lista se puedan buscar"], a: 0 },
     { type: 'mc', q: "En JSX, ¿cómo se asignan estilos en línea a través del atributo 'style'?", options: ["Con un string CSS", "Con un array", "Con un objeto de JavaScript style={{color: 'red'}}"], a: 2 },
     { type: 'tf', q: "Los eventos en React se escriben en camelCase (ej. onClick, onChange).", a: true },
     { type: 'mc', q: "¿Qué función (Hook) se utiliza para manejar estados dentro de un componente funcional?", options: ["useState", "useEffect", "useProps"], a: 0 },
-    { type: 'tf', q: "Cuando cambia un estado en React (usando setEstado), el componente se vuelve a renderizar automáticamente.", a: true },
+    { type: 'tf', q: "En React, el cambio de un estado causa un nuevo renderizado de los componentes que emplean dicho estado.", a: true },
     { type: 'mc', q: "Si el nuevo estado depende del valor anterior (ej. sumar 1), la forma correcta de actualizar es:", options: ["setContador(contador + 1)", "setContador((prev) => prev + 1)", "contador++"], a: 1 },
     { type: 'tf', q: "Para renderizado condicional en JSX es muy común usar el operador ternario `condicion ? true : false`.", a: true },
-    { type: 'mc', q: "En JSX, ¿cómo se escribe el atributo 'for' de un <label>?", options: ["for", "labelFor", "htmlFor"], a: 2 },
-    { type: 'tf', q: "Un componente funcional puede devolver múltiples elementos hermanos sin un <div> extra usando un fragmento vacío `<>...</>`.", a: true },
-    { type: 'mc', q: "De acuerdo al examen parcial, ¿cuál es el atributo en un <input> para enlazarse con el 'for' de un <label> (en HTML tradicional)?", options: ["name", "class", "id"], a: 2 },
-    { type: 'tf', q: "De acuerdo al examen parcial, el evento 'submit' se activa en el botón de envío y NO en el formulario.", a: false, feedback: "Falso. Según el examen, se activa sobre el elemento <form>." },
+    { type: 'mc', q: "En React, ¿qué atributo se utiliza en un <label> para asociarlo a un <input>?", options: ["name", "htmlFor", "id", "ref"], a: 1 },
+    { type: 'tf', q: "En React, un componente funcional puede devolver múltiples elementos hermanos sin necesidad de un div si se usa `<>...</>`.", a: true },
+    { type: 'mc', q: "¿Qué atributo hay usar en el elemento <input> para que se relacione correctamente con el atributo for de un <label> en un formulario?", options: ["value", "name", "class", "id"], a: 3 },
+    { type: 'tf', q: "En un contenedor de flexbox, la propiedad justify-content controla la distribución de los elementos sobre el eje principal (main axis), mientras que align-items controla su alineación sobre el eje transversal (cross axis).", a: true },
     { type: 'mc', q: "¿Qué valor de align-items coloca los elementos pegados al final del eje transversal?", options: ["flex-end", "flex-start", "center"], a: 0 },
-    { type: 'tf', q: "¡Llegaste a la última! Todo el estado (state) en React es inmutable y no debe modificarse directamente con '='.", a: true }
+    { type: 'tf', q: "Todo el estado (state) en React es inmutable y no debe modificarse directamente con '='.", a: true },
+    { type: 'mc', q: "¿Qué operador lógico es muy común en React para renderizado condicional cuando solo queremos mostrar algo si la condición es verdadera?", options: ["Operador ternario ( ? : )", "Operador AND ( && )", "Operador OR ( || )"], a: 1 },
+    { type: 'tf', q: "En React, si usamos la propiedad style, debemos pasarle un string con las reglas CSS separadas por punto y coma, igual que en HTML.", a: false, feedback: "Falso. En React, style recibe un objeto JavaScript, por ejemplo: style={{ backgroundColor: 'red' }}." },
+    { type: 'mc', q: "Después de procesar los datos de un formulario (ej. en un submit), ¿qué método se utiliza típicamente para limpiar todos sus campos a la vez?", options: ["formulario.clear()", "formulario.delete()", "formulario.reset()"], a: 2 },
+    { type: 'tf', q: "¡Llegaste a la última pregunta! React se caracteriza por tener un enfoque 'imperativo', donde le indicamos al navegador paso a paso cómo debe manipular el DOM.", a: false, feedback: "Falso. React tiene un enfoque DECLARATIVO. Describís cómo debe verse la interfaz y React se encarga de actualizar el DOM eficientemente." }
 ];
 
 let score = 0;
@@ -279,6 +279,14 @@ function renderQuiz() {
                 </button>`;
             });
             html += `</div>`;
+        }
+
+        // Si es Completar texto (fill)
+        if (q.type === 'fill') {
+            html += `<div class="mt-4 flex flex-col sm:flex-row gap-3">
+                <input type="text" id="fill-${i}" class="flex-1 p-4 border-2 border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 font-mono text-slate-700 bg-slate-50" placeholder="Escribí tu respuesta acá..." onkeypress="if(event.key==='Enter') document.getElementById('btn-fill-${i}').click()">
+                <button id="btn-fill-${i}" onclick="checkFillAnswer(${i}, this)" class="bg-blue-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-sm">Comprobar</button>
+            </div>`;
         }
 
         // Si es Matching (Unir con flechas)
@@ -337,6 +345,35 @@ function checkAnswer(qIdx, isCorrect, btn) {
         });
 
         feedback.innerHTML = q.feedback || "❌ Incorrecto. Revisá los apuntes de la materia.";
+        feedback.className = "mt-5 p-4 rounded-xl text-sm font-medium bg-rose-100 text-rose-800 block shadow-sm border border-rose-200";
+    }
+
+    updateProgress();
+}
+
+function checkFillAnswer(qIdx, btn) {
+    const q = questions[qIdx];
+    const input = document.getElementById(`fill-${qIdx}`);
+    const feedback = document.getElementById(`feedback-${qIdx}`);
+    const userAnswer = input.value.trim().toLowerCase();
+    
+    // Soporta múltiples respuestas correctas (ej: "space-between" o "space-between;")
+    const correctAnswers = Array.isArray(q.a) ? q.a.map(ans => ans.toLowerCase()) : [q.a.toLowerCase()];
+    const isCorrect = correctAnswers.includes(userAnswer);
+
+    // Deshabilitar input y botón tras responder
+    input.disabled = true;
+    btn.disabled = true;
+    btn.classList.add('opacity-60', 'cursor-not-allowed');
+
+    if (isCorrect) {
+        input.className = "flex-1 p-4 border-2 border-emerald-500 bg-emerald-50 text-emerald-800 rounded-xl font-mono font-bold";
+        score++;
+        feedback.innerHTML = "✅ ¡Correcto!";
+        feedback.className = "mt-5 p-4 rounded-xl text-sm font-bold bg-emerald-100 text-emerald-800 block border border-emerald-200";
+    } else {
+        input.className = "flex-1 p-4 border-2 border-rose-500 bg-rose-50 text-rose-800 rounded-xl font-mono font-bold";
+        feedback.innerHTML = `❌ Incorrecto. La respuesta correcta era: <strong>${correctAnswers[0]}</strong>`;
         feedback.className = "mt-5 p-4 rounded-xl text-sm font-medium bg-rose-100 text-rose-800 block shadow-sm border border-rose-200";
     }
 
