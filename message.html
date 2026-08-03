@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuestionario: Programación Full (Flexbox, DOM, React)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        .code-block {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 1rem 0;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const questions = [
+            // --- FLEXBOX (1-25) ---
+            {
+                id: 1,
+                category: "Flexbox",
+                type: "multiple",
+                question: "¿A quiénes afecta directamente la propiedad 'display: flex'?",
+                options: ["A todos los elementos del HTML", "Solo a los hijos directos del contenedor", "A los hijos y nietos por igual", "A los elementos hermanos del contenedor"],
+                answer: 1,
+                rationale: "Flexbox trabaja con una relación clara: contenedor flex e items flex (hijos directos)."
+            },
+            {
+                id: 2,
+                category: "Flexbox",
+                type: "boolean",
+                question: "Verdadero o Falso: Flexbox reemplaza por completo el modelo de caja (padding, margin, border).",
+                options: ["Verdadero", "Falso"],
+                answer: 1,
+                rationale: "El documento indica que Flexbox no reemplaza al modelo de caja, sino que lo complementa."
+            },
+            {
+                id: 3,
+                category: "Flexbox",
+                type: "code",
+                code: ".contenedor { flex-direction: column; }",
+                question: "En este código, ¿hacia dónde apunta el eje principal (main axis)?",
+                options: ["Horizontal (Izquierda a Derecha)", "Vertical (Arriba a Abajo)", "Diagonal", "No tiene eje principal"],
+                answer: 1,
+                rationale: "Si flex-direction es column, el eje principal es vertical."
+            },
+            {
+                id: 4,
+                category: "Flexbox",
+                type: "multiple",
+                question: "¿Cuál es el valor por defecto de 'flex-direction'?",
+                options: ["column", "row-reverse", "row", "initial"],
+                answer: 2,
+                rationale: "El valor por defecto es row (horizontal)."
+            },
+            {
+                id: 5,
+                category: "Flexbox",
+                type: "code",
+                code: ".container { display: flex; justify-content: center; }",
+                question: "¿Sobre qué eje alinea 'justify-content'?",
+                options: ["Eje principal", "Eje transversal", "Ambos ejes", "Depende del padding"],
+                answer: 0,
+                rationale: "justify-content alinea sobre el eje principal."
+            },
+            {
+                id: 6,
+                category: "Flexbox",
+                type: "multiple",
+                question: "¿Qué propiedad se usa para alinear items en el eje transversal?",
+                options: ["justify-content", "align-content", "align-items", "flex-flow"],
+                answer: 2,
+                rationale: "align-items controla la alineación en el eje perpendicular al principal."
+            },
+            {
+                id: 7,
+                category: "Flexbox",
+                type: "boolean",
+                question: "Verdadero o Falso: 'display: inline-flex' crea un contenedor que ocupa todo el ancho disponible como un bloque.",
+                options: ["Verdadero", "Falso"],
+                answer: 1,
+                rationale: "display: inline-flex crea un contenedor que se comporta como un elemento inline."
+            },
+            {
+                id: 8,
+                category: "Flexbox",
+                type: "multiple",
+                question: "¿Qué hace el valor 'space-between' en justify-content?",
+                options: ["Pone todo al centro", "Pone espacio igual alrededor de cada item", "Pega el primero y el último a los bordes y reparte el resto del espacio entre ellos", "No deja espacios"],
+                answer: 2,
+                rationale: "Space-between maximiza la separación entre items empujando los extremos hacia afuera."
+            },
+            {
+                id: 9,
+                category: "Flexbox",
+                type: "code",
+                code: ".item { flex: 1; }",
+                question: "¿Qué efecto práctico suele tener esta regla en un conjunto de items?",
+                options: ["Oculta los items", "Hace que cada item tome el mismo ancho y reparta el espacio disponible", "Fija el ancho a 1px", "Evita que los items crezcan"],
+                answer: 1,
+                rationale: "flex: 1 es un atajo muy usado para repartir el espacio disponible en partes iguales."
+            },
+            {
+                id: 10,
+                category: "Flexbox",
+                type: "boolean",
+                question: "Verdadero o Falso: La propiedad 'gap' permite separar items sin usar márgenes individuales.",
+                options: ["Verdadero", "Falso"],
+                answer: 0,
+                rationale: "Gap agrega separación directa entre los flex items."
+            },
+            {
+                id: 11,
+                category: "Flexbox",
+                type: "multiple",
+                question: "¿Qué propiedad combina flex-direction y flex-wrap?",
+                options: ["flex-basis", "flex-flow", "flex-grow", "flex-layout"],
+                answer: 1,
+                rationale: "flex-flow es la propiedad abreviada para dirección y salto de línea."
+            },
+            {
+                id: 12,
+                category: "Flexbox",
+                type: "multiple",
+                question: "Si queremos que un item específico tenga una alineación distinta a los demás en el eje transversal, usamos:",
+                options: ["align-items", "justify-self", "align-self", "order"],
+                answer: 2,
+                rationale: "align-self permite sobreescribir la alineación transversal para un solo item."
+            },
+            {
+                id: 13,
+                category: "Flexbox",
+                type: "code",
+                code: ".item { order: -1; }",
+                question: "¿Qué sucede con este elemento?",
+                options: ["Se elimina del DOM", "Se posiciona al final de la lista visualmente", "Se posiciona al principio de la lista visualmente", "Se vuelve transparente"],
+                answer: 2,
+                rationale: "El valor por defecto de order es 0. Un valor menor lo mueve hacia el inicio."
+            },
+            {
+                id: 14,
+                category: "Flexbox",
+                type: "multiple",
+                question: "¿Cuál es la propiedad que define el tamaño base inicial de un item antes de repartir espacio?",
+                options: ["flex-grow", "flex-shrink", "flex-basis", "width"],
+                answer: 2,
+                rationale: "flex-basis es el tamaño inicial de referencia."
+            },
+            {
+                id: 15,
+                category: "Flexbox",
+                type: "boolean",
+                question: "Verdadero o Falso: 'flex-wrap: nowrap' es el comportamiento por defecto (todo en una sola línea).",
+                options: ["Verdadero", "Falso"],
+                answer: 0,
+                rationale: "Por defecto Flexbox intenta poner todo en una sola línea."
+            },
+            {
+                id: 16,
+                category: "Flexbox",
+                type: "code",
+                code: ".boton { margin-left: auto; }",
+                question: "Dentro de un contenedor flex row, ¿qué efecto tiene este código?",
+                options: ["Centra el botón", "Empuja el botón hacia la derecha absorbiendo el espacio sobrante", "Agrega un margen de 10px", "No hace nada"],
+                answer: 1,
+                rationale: "En Flexbox, margin: auto absorbe el espacio disponible en esa dirección."
+            },
+            {
+                id: 17,
+                category: "Flexbox",
+                type: "multiple",
+                question: "Para alinear las 'líneas' de un contenedor que tiene múltiples filas (wrap), usamos:",
+                options: ["align-items", "align-content", "justify-content", "flex-direction"],
+                answer: 1,
+                rationale: "align-content alinea las líneas entre sí dentro del contenedor."
+            },
+            {
+                id: 18,
+                category: "Flexbox",
+                type: "boolean",
+                question: "Verdadero o Falso: Flexbox es ideal para crear barras de navegación y tarjetas responsivas.",
+                options: ["Verdadero", "Falso"],
+                answer: 0,
+                rationale: "Es uno de sus usos principales mencionados en el documento."
+            },
+            {
+                id: 19,
+                category: "Flexbox",
+                type: "multiple",
+                question: "Si 'flex-grow' es 0, ¿qué sucede?",
+                options: ["El item crece al máximo", "El item no crece aunque sobre espacio", "El item desaparece", "El item se achica"],
+                answer: 1,
+                rationale: "0 indica que no tiene permiso para ocupar espacio sobrante."
+            },
+            {
+                id: 20,
+                category: "Flexbox",
+                type: "code",
+                code: ".item { flex: 0 0 200px; }",
+                question: "¿Qué significa esta configuración?",
+                options: ["Crece y se achica libremente", "No crece, no se achica, base de 200px", "Mide 0px", "Se estira hasta el final"],
+                answer: 1,
+                rationale: "Es flex-grow: 0, flex-shrink: 0 y flex-basis: 200px."
+            },
+            {
+                id: 21,
+                category: "Flexbox",
+                type: "multiple",
+                question: "¿Qué valor de 'align-items' es el que viene por defecto y estira los hijos?",
+                options: ["center", "flex-start", "stretch", "baseline"],
+                answer: 2,
+                rationale: "stretch es el valor por defecto si los items no tienen tamaño fijo."
+            },
+            {
+                id: 22,
+                category: "Flexbox",
+                type: "boolean",
+                question: "Verdadero o Falso: El uso de 'order' puede afectar la accesibilidad (lectores de pantalla).",
+                options: ["Verdadero", "Falso"],
+                answer: 0,
+                rationale: "Cambia el orden visual pero no el del HTML/DOM real."
+            },
+            {
+                id: 23,
+                category: "Flexbox",
+                type: "multiple",
+                question: "¿Cómo centramos un elemento tanto horizontal como verticalmente de forma rápida con Flexbox?",
+                options: ["float: center", "display: flex; justify-content: center; align-items: center;", "text-align: center", "margin: 0 auto"],
+                answer: 1,
+                rationale: "Es la combinación clásica para centrado total."
+            },
+            {
+                id: 24,
+                category: "Flexbox",
+                type: "multiple",
+                question: "¿Qué propiedad se usa para permitir que un item se reduzca si falta espacio?",
+                options: ["flex-shrink", "flex-grow", "min-width", "flex-basis"],
+                answer: 0,
+                rationale: "flex-shrink controla la capacidad de achicarse."
+            },
+            {
+                id: 25,
+                category: "Flexbox",
+                type: "boolean",
+                question: "Verdadero o Falso: Los items flex pueden ser a su vez contenedores flex.",
+                options: ["Verdadero", "Falso"],
+                answer: 0,
+                rationale: "Es común anidar contenedores flex para layouts complejos."
+            },
+
+            // --- DOM (26-50) ---
+            {
+                id: 26,
+                category: "DOM",
+                type: "multiple",
+                question: "¿Qué significa DOM?",
+                options: ["Document Object Model", "Digital Object Main", "Data Oriented Module", "Document Option Mode"],
+                answer: 0,
+                rationale: "Es la representación del HTML como un árbol de objetos."
+            },
+            {
+                id: 27,
+                category: "DOM",
+                type: "multiple",
+                question: "¿Cuál es el punto de entrada principal para buscar elementos en el DOM?",
+                options: ["window", "document", "html", "body"],
+                answer: 1,
+                rationale: "document es el objeto raíz que representa el documento cargado."
+            },
+            {
+                id: 28,
+                category: "DOM",
+                type: "code",
+                code: "document.getElementById('mi-id')",
+                question: "¿Qué devuelve este método si el elemento existe?",
+                options: ["Un arreglo de elementos", "El primer elemento que coincida con el ID", "Todos los elementos con ese ID", "Un string con el HTML"],
+                answer: 1,
+                rationale: "Los IDs deben ser únicos, por lo que devuelve una única referencia."
+            },
+            {
+                id: 29,
+                category: "DOM",
+                type: "multiple",
+                question: "¿Qué método de búsqueda permite usar selectores de CSS (como clases o etiquetas)?",
+                options: ["getElementById", "querySelector", "findCSS", "getElementByTag"],
+                answer: 1,
+                rationale: "querySelector usa la misma sintaxis que CSS."
+            },
+            {
+                id: 30,
+                category: "DOM",
+                type: "boolean",
+                question: "Verdadero o Falso: 'querySelectorAll' devuelve una colección que puede recorrerse, por ejemplo con .forEach().",
+                options: ["Verdadero", "Falso"],
+                answer: 0,
+                rationale: "Devuelve una NodeList que permite iteración."
+            },
+            {
+                id: 31,
+                category: "DOM",
+                type: "multiple",
+                question: "Diferencia entre 'textContent' e 'innerHTML':",
+                options: ["Son iguales", "textContent solo maneja texto plano; innerHTML interpreta etiquetas HTML", "innerHTML es más seguro para evitar ataques", "textContent permite cambiar el color"],
+                answer: 1,
+                rationale: "innerHTML permite insertar etiquetas como <strong> o <div>."
+            },
+            {
+                id: 32,
+                category: "DOM",
+                type: "code",
+                code: "elemento.setAttribute('href', 'https://google.com')",
+                question: "¿Qué hace esta línea?",
+                options: ["Borra el link", "Modifica el atributo href del elemento", "Crea un elemento nuevo", "Lee el valor actual"],
+                answer: 1,
+                rationale: "setAttribute define o actualiza el valor de un atributo."
+            },
+            {
+                id: 33,
+                category: "DOM",
+                type: "multiple",
+                question: "¿Qué propiedad de 'classList' agrega una clase si no existe y la quita si ya existe?",
+                options: ["add", "remove", "toggle", "contains"],
+                answer: 2,
+                rationale: "Toggle funciona como un interruptor."
+            },
+            {
+                id: 34,
+                category: "DOM",
+                type: "code",
+                code: "const div = document.createElement('div')",
+                question: "Tras ejecutar esta línea, ¿dónde está el div?",
+                options: ["Al final del body", "Al principio del body", "En memoria, todavía no está en el documento visible", "En el header"],
+                answer: 2,
+                rationale: "createElement crea el nodo, pero hay que usar appendChild u otros para mostrarlo."
+            },
+            {
+                id: 35,
+                category: "DOM",
+                type: "multiple",
+                question: "¿Cómo agregamos un nodo como hijo al final de otro elemento?",
+                options: ["elemento.add()", "elemento.insert()", "elemento.appendChild()", "elemento.push()"],
+                answer: 2,
+                rationale: "appendChild es el método estándar."
+            },
+            {
+                id: 36,
+                category: "DOM",
+                type: "multiple",
+                question: "¿Cuál es el método moderno recomendado para escuchar eventos?",
+                options: ["onclick", "addEventListener", "onEvent", "attachListener"],
+                answer: 1,
+                rationale: "Permite separar HTML de JS y registrar múltiples manejadores."
+            },
+            {
+                id: 37,
+                category: "DOM",
+                type: "boolean",
+                question: "Verdadero o Falso: Es una buena práctica declarar eventos directamente en el HTML usando atributos como onclick='...'.",
+                options: ["Verdadero", "Falso"],
+                answer: 1,
+                rationale: "No se recomienda porque mezcla estructura con comportamiento y dificulta el mantenimiento."
+            },
+            {
+                id: 38,
+                category: "DOM",
+                type: "code",
+                code: "formulario.addEventListener('submit', event => { ... })",
+                question: "¿Qué suele ser obligatorio hacer primero en un evento 'submit' para procesar datos con JS?",
+                options: ["event.stop()", "event.preventDefault()", "alert('Enviando')", "document.reset()"],
+                answer: 1,
+                rationale: "preventDefault evita que la página se recargue automáticamente."
+            },
+            {
+                id: 39,
+                category: "DOM",
+                type: "multiple",
+                question: "¿Qué propiedad del objeto 'event' nos dice qué elemento originó el evento?",
+                options: ["event.origin", "event.source", "event.target", "event.element"],
+                answer: 2,
+                rationale: "target es la referencia al elemento que disparó la acción."
+            },
+            {
+                id: 40,
+                category: "DOM",
+                type: "multiple",
+                question: "¿Cuál es el evento que se dispara cuando el HTML ha sido completamente cargado y parseado?",
+                options: ["load", "click", "DOMContentLoaded", "ready"],
+                answer: 2,
+                rationale: "Es el momento seguro para manipular el DOM."
+            },
+            {
+                id: 41,
+                category: "DOM",
+                type: "boolean",
+                question: "Verdadero o Falso: 'remove()' elimina un elemento del DOM.",
+                options: ["Verdadero", "Falso"],
+                answer: 0,
+                rationale: "Es el método directo para quitar un nodo."
+            },
+            {
+                id: 42,
+                category: "DOM",
+                type: "multiple",
+                question: "Para leer el valor que un usuario escribió en un <input>, usamos:",
+                options: ["input.textContent", "input.value", "input.innerHTML", "input.innerText"],
+                answer: 1,
+                rationale: "La propiedad .value contiene el dato ingresado en campos de formulario."
+            },
+            {
+                id: 43,
+                category: "DOM",
+                type: "multiple",
+                question: "¿Qué objeto permite capturar fácilmente todos los campos de un formulario?",
+                options: ["DataCollector", "FormData", "InputObject", "FormValues"],
+                answer: 1,
+                rationale: "New FormData(formulario) facilita la obtención de datos."
+            },
+            {
+                id: 44,
+                category: "DOM",
+                type: "multiple",
+                question: "El evento 'input' se dispara:",
+                options: ["Solo al terminar de escribir", "Cada vez que cambia el valor mientras el usuario escribe", "Al hacer clic en el input", "Al enviar el formulario"],
+                answer: 1,
+                rationale: "Es útil para validaciones en tiempo real."
+            },
+            {
+                id: 45,
+                category: "DOM",
+                type: "boolean",
+                question: "Verdadero o Falso: 'style' permite modificar estilos CSS directamente desde JS (ej: elemento.style.color = 'red').",
+                options: ["Verdadero", "Falso"],
+                answer: 0,
+                rationale: "Accede a los estilos en línea del elemento."
+            },
+            {
+                id: 46,
+                category: "DOM",
+                type: "multiple",
+                question: "¿Qué técnica consiste en escuchar un evento en un contenedor padre en lugar de en cada hijo?",
+                options: ["Propagación", "Delegación de eventos", "Captura", "Bubbling"],
+                answer: 1,
+                rationale: "Es más eficiente y funciona con elementos creados dinámicamente."
+            },
+            {
+                id: 47,
+                category: "DOM",
+                type: "code",
+                code: "formulario.reset()",
+                question: "¿Qué efecto tiene este método?",
+                options: ["Elimina el formulario", "Limpia todos los campos del formulario", "Envía los datos", "Cierra el navegador"],
+                answer: 1,
+                rationale: "Vuelve los campos a su estado inicial."
+            },
+            {
+                id: 48,
+                category: "DOM",
+                type: "boolean",
+                question: "Verdadero o Falso: Se puede usar 'forEach' para recorrer los elementos obtenidos con querySelectorAll.",
+                options: ["Verdadero", "Falso"],
+                answer: 0,
+                rationale: "NodeList implementa el método forEach."
+            },
+            {
+                id: 49,
+                category: "DOM",
+                type: "multiple",
+                question: "¿Cómo se llama el método para quitar un listener de un evento?",
+                options: ["stopEventListener", "removeEventListener", "deleteEventListener", "off"],
+                answer: 1,
+                rationale: "Requiere la misma referencia de función que se usó al agregarlo."
+            },
+            {
+                id: 50,
+                category: "DOM",
+                type: "boolean",
+                question: "Verdadero o Falso: JS puede crear filas en una tabla dinámicamente usando createElement('tr').",
+                options: ["Verdadero", "Falso"],
+                answer: 0,
+                rationale: "Es un patrón común en aplicaciones de gestión de datos."
+            },
+
+            // --- REACT (51-70) ---
+            {
+                id: 51,
+                category: "React",
+                type: "multiple",
+                question: "¿Qué es React?",
+                options: ["Un lenguaje de programación", "Una biblioteca de JS para construir interfaces de usuario", "Un sistema de base de datos", "Un framework de CSS"],
+                answer: 1,
+                rationale: "Se enfoca en componentes reutilizables y enfoque declarativo."
+            },
+            {
+                id: 52,
+                category: "React",
+                type: "multiple",
+                question: "¿Cómo se llama la sintaxis que permite mezclar HTML y JS en React?",
+                options: ["HTML+", "JSX", "ReactText", "JS-DOM"],
+                answer: 1,
+                rationale: "JavaScript XML (JSX) es la sintaxis estándar de React."
+            },
+            {
+                id: 53,
+                category: "React",
+                type: "boolean",
+                question: "Verdadero o Falso: En JSX, para aplicar una clase de CSS se usa el atributo 'class'.",
+                options: ["Verdadero", "Falso"],
+                answer: 1,
+                rationale: "Se usa 'className' porque 'class' es una palabra reservada en JS."
+            },
+            {
+                id: 54,
+                category: "React",
+                type: "code",
+                code: "function MiComponente() { ... }",
+                question: "¿Cuál es la convención para los nombres de componentes?",
+                options: ["Empezar con minúscula", "Empezar con Mayúscula", "Todo en mayúsculas", "Usar guiones"],
+                answer: 1,
+                rationale: "Los componentes deben empezar con Mayúscula para que React los distinga de etiquetas HTML."
+            },
+            {
+                id: 55,
+                category: "React",
+                type: "multiple",
+                question: "¿Cómo se pasan datos de un componente padre a un hijo?",
+                options: ["Mediante variables globales", "Mediante Props", "Mediante el DOM", "Mediante IDs"],
+                answer: 1,
+                rationale: "Las props (propiedades) son el mecanismo de comunicación unidireccional."
+            },
+            {
+                id: 56,
+                category: "React",
+                type: "boolean",
+                question: "Verdadero o Falso: Las props son de solo lectura (un componente hijo no debe modificarlas).",
+                options: ["Verdadero", "Falso"],
+                answer: 0,
+                rationale: "Son inmutables desde la perspectiva del hijo."
+            },
+            {
+                id: 57,
+                category: "React",
+                type: "multiple",
+                question: "¿Qué hook se utiliza para guardar información que cambia en el tiempo?",
+                options: ["useEffect", "useState", "useData", "useRef"],
+                answer: 1,
+                rationale: "useState permite manejar el estado interno del componente."
+            },
+            {
+                id: 58,
+                category: "React",
+                type: "code",
+                code: "const [valor, setValor] = useState(0)",
+                question: "¿Qué es 'setValor'?",
+                options: ["El valor actual", "La función para actualizar el estado", "Un evento", "Una prop"],
+                answer: 1,
+                rationale: "Es la función despachadora que cambia el valor y dispara el re-renderizado."
+            },
+            {
+                id: 59,
+                category: "React",
+                type: "multiple",
+                question: "¿Qué prop especial se usa al renderizar listas para que React identifique cada item?",
+                options: ["id", "index", "key", "target"],
+                answer: 2,
+                rationale: "Key ayuda a React a optimizar las actualizaciones de la lista."
+            },
+            {
+                id: 60,
+                category: "React",
+                type: "boolean",
+                question: "Verdadero o Falso: Un componente de React puede retornar múltiples elementos hermanos sin un contenedor raíz único.",
+                options: ["Verdadero", "Falso"],
+                answer: 1,
+                rationale: "Debe haber un solo elemento raíz por retorno (o un Fragment)."
+            },
+            {
+                id: 61,
+                category: "React",
+                type: "multiple",
+                question: "¿Cómo se escriben los eventos en React (ej: click)?",
+                options: ["onclick", "onClick", "on-click", "click"],
+                answer: 1,
+                rationale: "Se usa camelCase en React."
+            },
+            {
+                id: 62,
+                category: "React",
+                type: "code",
+                code: "{ mensajes > 0 && <p>Tienes mensajes</p> }",
+                question: "¿Cómo se llama esta técnica?",
+                options: ["Renderizado doble", "Renderizado condicional", "Switching", "Looping"],
+                answer: 1,
+                rationale: "Usa lógica de JS para decidir qué mostrar en la UI."
+            },
+            {
+                id: 63,
+                category: "React",
+                type: "multiple",
+                question: "¿Qué prop recibe el contenido que se pone entre las etiquetas de apertura y cierre de un componente?",
+                options: ["props.content", "props.main", "props.children", "props.inner"],
+                answer: 2,
+                rationale: "Children permite anidar contenido dinámico."
+            },
+            {
+                id: 64,
+                category: "React",
+                type: "boolean",
+                question: "Verdadero o Falso: En React, el estilo en línea se pasa como un string (ej: style='color: blue').",
+                options: ["Verdadero", "Falso"],
+                answer: 1,
+                rationale: "Recibe un objeto JavaScript (ej: style={{ color: 'blue' }})."
+            },
+            {
+                id: 65,
+                category: "React",
+                type: "multiple",
+                question: "¿Qué herramienta se usa en el apunte para permitir que el navegador entienda JSX sin compilación previa?",
+                options: ["React Native", "Babel", "Webpack", "Tailwind"],
+                answer: 1,
+                rationale: "Babel transpila JSX a JS estándar en tiempo de ejecución."
+            },
+            {
+                id: 66,
+                category: "React",
+                type: "code",
+                code: "setContador(prev => prev + 1)",
+                question: "¿Por qué se usa la función flecha dentro de setContador?",
+                options: ["Es más corto", "Para asegurar que la actualización se basa en el estado previo correcto", "Es obligatorio siempre", "No hace nada"],
+                answer: 1,
+                rationale: "Es la forma segura cuando el nuevo estado depende del anterior."
+            },
+            {
+                id: 67,
+                category: "React",
+                type: "multiple",
+                question: "En un <input> de React, ¿qué evento usamos para actualizar el estado con lo que escribe el usuario?",
+                options: ["onClick", "onHover", "onChange", "onUpdate"],
+                answer: 2,
+                rationale: "OnChange captura los cambios de valor del campo."
+            },
+            {
+                id: 68,
+                category: "React",
+                type: "boolean",
+                question: "Verdadero o Falso: React actualiza todo el DOM del sitio en cada cambio de estado.",
+                options: ["Verdadero", "Falso"],
+                answer: 1,
+                rationale: "React es eficiente y solo actualiza las partes del DOM que cambiaron."
+            },
+            {
+                id: 69,
+                category: "React",
+                type: "multiple",
+                question: "¿Dónde se monta la aplicación de React en el HTML?",
+                options: ["En el <head>", "En un div contenedor (frecuentemente id='root')", "En el <footer>", "No necesita contenedor"],
+                answer: 1,
+                rationale: "ReactDOM.createRoot necesita un nodo de referencia para 'inyectar' la app."
+            },
+            {
+                id: 70,
+                category: "React",
+                type: "boolean",
+                question: "Verdadero o Falso: Los componentes funcionales son simplemente funciones de JS que retornan JSX.",
+                options: ["Verdadero", "Falso"],
+                answer: 0,
+                rationale: "Es la definición básica de un componente funcional."
+            }
+        ];
+
+        function App() {
+            const [currentQuestion, setCurrentQuestion] = useState(0);
+            const [score, setScore] = useState(0);
+            const [showResult, setShowResult] = useState(false);
+            const [selectedOption, setSelectedOption] = useState(null);
+            const [isAnswered, setIsAnswered] = useState(false);
+
+            const handleAnswer = (index) => {
+                if (isAnswered) return;
+                setSelectedOption(index);
+                setIsAnswered(true);
+                if (index === questions[currentQuestion].answer) {
+                    setScore(score + 1);
+                }
+            };
+
+            const nextQuestion = () => {
+                const next = currentQuestion + 1;
+                if (next < questions.length) {
+                    setCurrentQuestion(next);
+                    setSelectedOption(null);
+                    setIsAnswered(false);
+                } else {
+                    setShowResult(true);
+                }
+            };
+
+            const q = questions[currentQuestion];
+
+            if (showResult) {
+                return (
+                    <div className="max-w-2xl mx-auto mt-10 p-8 bg-white rounded-xl shadow-lg text-center">
+                        <h2 className="text-3xl font-bold mb-4 text-blue-600">¡Cuestionario Completado!</h2>
+                        <p className="text-xl mb-6">Tu puntaje final es: <span className="font-bold">{score}</span> de {questions.length}</p>
+                        <div className="text-left bg-gray-50 p-4 rounded-lg mb-6">
+                            <p className="font-semibold">Resumen de desempeño:</p>
+                            <p>Correctas: {score}</p>
+                            <p>Incorrectas: {questions.length - score}</p>
+                            <p>Porcentaje: {((score / questions.length) * 100).toFixed(1)}%</p>
+                        </div>
+                        <button 
+                            onClick={() => window.location.reload()}
+                            className="bg-blue-500 text-white px-6 py-2 rounded-full hover:bg-blue-600 transition"
+                        >
+                            Reiniciar Cuestionario
+                        </button>
+                    </div>
+                );
+            }
+
+            return (
+                <div className="max-w-3xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-lg">
+                    <div className="flex justify-between items-center mb-6 border-b pb-4">
+                        <div>
+                            <span className="text-sm font-bold text-blue-500 uppercase tracking-widest">{q.category}</span>
+                            <h1 className="text-lg font-bold text-gray-700">Pregunta {currentQuestion + 1} de {questions.length}</h1>
+                        </div>
+                        <div className="text-right">
+                            <span className="text-sm text-gray-500">Puntaje: {score}</span>
+                            <div className="w-32 bg-gray-200 h-2 rounded-full mt-1">
+                                <div className="bg-green-500 h-2 rounded-full" style={{width: `${(currentQuestion / questions.length) * 100}%`}}></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="mb-6">
+                        <h2 className="text-xl font-medium text-gray-800 mb-4">{q.question}</h2>
+                        
+                        {q.type === 'code' && (
+                            <div className="code-block">
+                                <code>{q.code}</code>
+                            </div>
+                        )}
+
+                        <div className="grid grid-cols-1 gap-3">
+                            {q.options.map((option, index) => {
+                                let btnClass = "p-4 text-left border rounded-lg transition-all ";
+                                if (!isAnswered) {
+                                    btnClass += "hover:bg-blue-50 hover:border-blue-300";
+                                } else {
+                                    if (index === q.answer) {
+                                        btnClass += "bg-green-100 border-green-500 text-green-700 font-bold";
+                                    } else if (index === selectedOption) {
+                                        btnClass += "bg-red-100 border-red-500 text-red-700";
+                                    } else {
+                                        btnClass += "opacity-50";
+                                    }
+                                }
+
+                                return (
+                                    <button 
+                                        key={index}
+                                        disabled={isAnswered}
+                                        onClick={() => handleAnswer(index)}
+                                        className={btnClass}
+                                    >
+                                        <span className="mr-2 font-bold">{String.fromCharCode(65 + index)}.</span>
+                                        {option}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+
+                    {isAnswered && (
+                        <div className="mt-6 p-4 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 rounded">
+                            <p className="font-bold">¿Por qué?</p>
+                            <p>{q.rationale}</p>
+                            <button 
+                                onClick={nextQuestion}
+                                className="mt-4 bg-gray-800 text-white px-6 py-2 rounded hover:bg-black w-full"
+                            >
+                                {currentQuestion + 1 === questions.length ? "Ver Resultados" : "Siguiente Pregunta"}
+                            </button>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById("root"));
+        root.render(<App />);
+    </script>
+</body>
+</html>
+```eof
+
+He creado un cuestionario completo con **70 preguntas** que cubren todos los puntos clave del apunte:
+*   **Flexbox**: 25 preguntas sobre ejes, contenedores, items y patrones de diseño.
+*   **DOM**: 25 preguntas sobre selección, manipulación de contenido, eventos y formularios.
+*   **React**: 20 preguntas sobre componentes, JSX, props y estado (`useState`).
+
+La aplicación te permite ver la explicación de cada respuesta inmediatamente para que puedas usarla como herramienta de estudio activa. ¡Mucha suerte con el repaso!
